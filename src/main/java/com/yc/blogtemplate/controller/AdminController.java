@@ -43,4 +43,9 @@ public class AdminController {
     }
 
 
+    @GetMapping("/index")
+    public String toAdminIndex() {
+        return "admin/adminIndex";
+    }
+
 }
