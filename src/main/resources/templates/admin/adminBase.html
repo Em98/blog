@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <link rel="stylesheet" href="../../static/css/editormd.css" />
+
+    <!--<link rel="stylesheet" href="../../static/css/bootstrap.css" />-->
+</head>
+
+<!-- 你的HTML代码 -->
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">98 blog</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    98
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">文章管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">博客列表</a></dd>
+                        <dd><a href="javascript:;">草稿箱</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <div class="layui-body">
+        <br>
+        <!-- 内容主体区域 -->
+        <div id="test-editormd">
+                <textarea style="display:none;" >[TOC]
+
+#### Disabled options
+
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+- HTML tags decode;
+- Flowchart and Sequence Diagram;
+
+#### Editor.md directory
+
+    editor.md/
+            lib/
+            css/
+            scss/
+            tests/
+            fonts/
+            images/
+            plugins/
+            examples/
+            languages/
+            editormd.js
+            ...
+
+```html
+&lt;!-- English --&gt;
+&lt;script src="../dist/js/languages/en.js"&gt;&lt;/script&gt;
+
+&lt;!-- 繁體中文 --&gt;
+&lt;script src="../dist/js/languages/zh-tw.js"&gt;&lt;/script&gt;
+```
+</textarea>
+        </div>
+    </div>
+
+</div>
+<script src="../../static/layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['element','form'], function(){
+        var element = layui.element
+            ,form = layui.form;
+
+        //
+        // form.on('submit(formDemo)', function(data){
+        //     layer.msg(JSON.stringify(data.field));
+        //     alert(JSON.stringify(data.field));
+        //     return false;
+        // });
+    });
+</script>
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/editormd.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var testEditor;
+
+        $(function() {
+            testEditor = editormd("test-editormd", {
+                width   : "90%",
+                height  : 640,
+                syncScrolling : "single",
+                path    : "../../static/lib/",
+                saveHTMLToTextarea : true,// 保存HTML到Textarea
+
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "./php/upload.php",
+                onload : function() {
+                    console.log('onload', this);
+                }
+            });
+        });
+        //
+        // console.log($("#post-id").text());
+        // console.log($("#post-id").text().length);
+
+        // $("#blog-submit").click(function(){
+        //     var data = {};
+        //     data["title"] = $("#title").val();
+        //     data["summary"] = $("#summary").val();
+        //     data["contentMd"] = testEditor.getMarkdown();
+        //     data["contentHtml"]  = testEditor.getHTML();
+        //     if($("#post-id").text().length != 0)
+        //         data["id"] = $("#post-id").text();
+        //     $.ajax({
+        //         url : "/post/publishNewBlog",
+        //         type : "POST",
+        //         dataType : "json",
+        //         contentType : "application/json;charset=UTF-8",
+        //         cache : false,
+        //         data : JSON.stringify(data),
+        //         success : function(data){
+        //             alert(JSON.stringify(data));
+        //             window.location.reload();
+        //         },
+        //         error : function(e){
+        //             alert(JSON.stringify(e));
+        //         },
+        //     });
+        // });
+        //
+        // $("#get-html-btn").click(function(){
+        //     $("#show-output").html(testEditor.getPreviewedHTML());
+        // });
+    });
+
+</script>
+</body>
+</html>
