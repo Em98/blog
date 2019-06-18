@@ -23,7 +23,7 @@
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <blockquote class="layui-elem-quote">欢迎管理员：
-                        <span class="x-red">test</span>！当前时间:2018-04-25 20:50:53
+                        <span class="x-red">test</span>！当前时间:<span id="basic-time">2018-04-25 20:50:53</span>
                     </blockquote>
                 </div>
             </div>
@@ -37,42 +37,7 @@
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>文章数</h3>
                                 <p>
-                                    <cite>66</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>会员数</h3>
-                                <p>
-                                    <cite>12</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>回复数</h3>
-                                <p>
-                                    <cite>99</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>商品数</h3>
-                                <p>
-                                    <cite>67</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>文章数</h3>
-                                <p>
-                                    <cite>67</cite></p>
-                            </a>
-                        </li>
-                        <li class="layui-col-md2 layui-col-xs6 ">
-                            <a href="javascript:;" class="x-admin-backlog-body">
-                                <h3>文章数</h3>
-                                <p>
-                                    <cite>6766</cite></p>
+                                    <cite id="post-count">66</cite></p>
                             </a>
                         </li>
                     </ul>
@@ -200,5 +165,32 @@
     </div>
 </div>
 </div>
+<script src="../../static/js/jquery.min.js"></script>
+<script>
+    function getBasicInfo() {
+        $.ajax({
+            async : true,
+            type : "get",
+            url : "http://localhost:8090/admin/indexBasicInfo",
+            dataType : "json",
+            success : function (data) {
+                if(data["errno"] === 0){
+                    var info = data["data"];
+                    $("#basic-time").html(info["dateTime"]);
+                    $("#post-count").html(info["postCount"]);
+                } else {
+                    alert(data["errmsg"]);
+                }
+            },
+            error : function (data) {
+                alert("ajax error.");
+            }
+        });
+        
+    };
+    $(document).ready(function () {
+        getBasicInfo();
+    });
+</script>
 </body>
 </html>
