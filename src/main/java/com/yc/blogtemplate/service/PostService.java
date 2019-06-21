@@ -26,5 +26,7 @@ public interface PostService {
 
     Page<Post> getPartField(Pageable pageable);
 
+    List<Post> getPartField();
+
 
 }

@@ -21,5 +21,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "SELECT new Post (p.id, p.title, p.publishData, p.postStatus)  FROM Post p")
     Page<Post> getPartFieldPage(Pageable pageable);
 
+    @Query(value = "SELECT new Post (p.id, p.title, p.publishData, p.postStatus)  FROM Post p")
+    List<Post> getPartFiel();
+
 
 }

@@ -36,7 +36,7 @@ public class PostController {
     private PostService postService;
 
     @GetMapping("/newPost")
-    public String toWritePage(Model model){
+    public String toWritePage(Model model) {
         Post post = new Post();
         model.addAttribute("post", post);
         return "blog/blogEdit";
@@ -64,19 +64,18 @@ public class PostController {
                 Date now = new Date();
                 post.setPublishData(now);
                 postService.savePost(post);
-            }
-            else {
+            } else {
                 System.out.println(post.getContentMd());
                 postService.updatePostContent(post);
             }
-        Response response = new Response(true, "upload success.", "博客上传成功！");
-        return ResponseEntity.ok(response);
-    }
+            Response response = new Response(true, "upload success.", "博客上传成功！");
+            return ResponseEntity.ok(response);
+        }
     }
 
     @GetMapping("/view/{id}")
-    public String viewPost(@PathVariable("id") Long id, Model model){
-        try{
+    public String viewPost(@PathVariable("id") Long id, Model model) {
+        try {
             Post post = postService.getPostById(id);
             SimpleDateFormat publishFormat = new SimpleDateFormat("yyyy-MM-dd");
             String publishDate = publishFormat.format(post.getPublishData());
@@ -86,26 +85,26 @@ public class PostController {
             model.addAttribute("post", post);
             model.addAttribute("pubInfo", publishInfo);
             return "blog/articleTestPage";
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             return "index";
         }
     }
 
     @RequestMapping("/delete/{id}")
-    public String deletePost(@PathVariable("id") Long id, Model model){
-        try{
+    public String deletePost(@PathVariable("id") Long id, Model model) {
+        try {
             postService.removePost(id);
             List<Post> posts = postService.getAllPost();
             model.addAttribute("posts", posts);
             return "admin/postList";
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             return "index";
         }
     }
 
     @GetMapping("/list/{index}")
     @ResponseBody
-    public Object getPostList(@PathVariable("index") int index, Model model){
+    public Object getPostList(@PathVariable("index") int index, Model model) {
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = PageRequest.of(index, 6, sort);
         Page<Post> page = postService.getPartField(pageable);
@@ -116,7 +115,18 @@ public class PostController {
         data.put("count", posts.size());
         data.put("data", posts);
         return data;
+    }
 
+    @GetMapping("/list")
+    @ResponseBody
+    public Object getPostList() {
+        List<Post> posts = postService.getPartField();
+        Map<String, Object> data = new HashMap<>();
+        data.put("code", 0);
+        data.put("msg", "");
+        data.put("count", posts.size());
+        data.put("data", posts);
+        return data;
     }
 
 }

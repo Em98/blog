@@ -60,4 +60,9 @@ public class PostServiceImpl implements PostService {
     public Page<Post> getPartField(Pageable pageable) {
         return postRepository.getPartFieldPage(pageable);
     }
+
+    @Override
+    public List<Post> getPartField() {
+        return postRepository.getPartFiel();
+    }
 }

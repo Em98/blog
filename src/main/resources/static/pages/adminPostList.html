@@ -40,7 +40,7 @@
 
                 table.render({
                     elem: '#test'
-                    ,url:'/post/list/0'
+                    ,url:'/post/list'
                     ,toolbar: '#toolbarDemo'
                     ,title: '日志数据表'
                     ,cols: [
@@ -48,7 +48,7 @@
                         {type: 'checkbox', fixed: 'left'}
                         ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
                         ,{field:'title', title:'标题', width:120, edit: 'text'}
-                        ,{field:'publishData', title:'发表时间', width:200, edit: 'text', sort: true}
+                        ,{field:'publishData', title:'发表时间', width:300, edit: 'text', sort: true}
                         ,{field:'postStatus', title:'状态', width:100}
                         ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
                     ]
