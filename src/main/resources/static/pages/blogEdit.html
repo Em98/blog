@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <!--<title th:replace="~{fragment/header :: header}">Simple example - Editor.md examples</title>-->
+    <!--<link rel="stylesheet" href="../../static/css/bootstrap.css" />-->
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <link rel="stylesheet" href="../../static/css/editormd.css" />
+    <link rel="stylesheet" href="../../static/layui/css/layui.css">
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>日志编辑</legend>
+</fieldset>
+
+
+<div class="layui-form-item">
+    <label class="layui-form-label">标题</label>
+    <div class="layui-input-block">
+        <input type="text" name="title"  id="title" lay-verify="title" autocomplete="off" class = "layui-input" placeholder="请输入标题"  >
+    </div>
+</div>
+
+<div class = "layui-form-item">
+    <label class="layui-form-label">摘要</label>
+    <div class="layui-input-block">
+        <input type="text" name="title"  id="summary" lay-verify="title" autocomplete="off" placeholder="请输入摘要"  class="layui-input"  >
+    </div>
+</div>
+
+<div id="layout">
+
+    <div id="test-editormd">
+                <textarea style="display:none;" >
+
+</textarea>
+    </div>
+</div>
+
+
+<br/>
+
+<div>
+    <button class="layui-btn layui-btn-normal" id="blog-submit">submit</button>
+    <!--<button id="get-html-btn">get html</button>-->
+</div>
+
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var testEditor;
+
+        $(function() {
+            testEditor = editormd("test-editormd", {
+                width   : "90%",
+                height  : 640,
+                syncScrolling : "single",
+                path    : "../../static/lib/",
+                saveHTMLToTextarea : true,// 保存HTML到Textarea
+
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "./php/upload.php",
+                onload : function() {
+                    console.log('onload', this);
+                }
+            });
+        });
+
+        console.log($("#post-id").text());
+        console.log($("#post-id").text().length);
+
+        $("#blog-submit").click(function(){
+            var data = {};
+            data["title"] = $("#title").val();
+            data["summary"] = $("#summary").val();
+            data["contentMd"] = testEditor.getMarkdown();
+            data["contentHtml"]  = testEditor.getHTML();
+            if($("#post-id").text().length != 0)
+                data["id"] = $("#post-id").text();
+            $.ajax({
+                url : "/post/publishNewBlog",
+                type : "POST",
+                dataType : "json",
+                contentType : "application/json;charset=UTF-8",
+                cache : false,
+                data : JSON.stringify(data),
+                success : function(data){
+                    alert(JSON.stringify(data));
+                    window.location.reload();
+                },
+                error : function(e){
+                    alert(JSON.stringify(e));
+                },
+            });
+        });
+
+        $("#get-html-btn").click(function(){
+            $("#show-output").html(testEditor.getPreviewedHTML());
+        });
+    });
+
+</script>
+</body>
+</html>

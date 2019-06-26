@@ -119,12 +119,15 @@ public class PostController {
 
     @GetMapping("/list")
     @ResponseBody
-    public Object getPostList() {
-        List<Post> posts = postService.getPartField();
+    public Object getPostList(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page-1, limit, sort);
+        Page<Post> onePage = postService.getPartField(pageable);
+        List<Post> posts = onePage.getContent();
         Map<String, Object> data = new HashMap<>();
         data.put("code", 0);
         data.put("msg", "");
-        data.put("count", posts.size());
+        data.put("count", postService.count());
         data.put("data", posts);
         return data;
     }

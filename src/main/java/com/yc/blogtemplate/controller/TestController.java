@@ -12,9 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
-import javax.jws.WebParam;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +24,8 @@ public class TestController {
 
 
     public void getOnePage(Model model, int pageIndex){
-        Pageable pageable = PageRequest.of(pageIndex, PAGE_SIZE);
         Sort sort = new Sort(Sort.Direction.DESC, "publishData");
+        Pageable pageable = PageRequest.of(pageIndex, PAGE_SIZE,sort);
         Page<Post> page = postService.getPostsByTitleLike("", pageable);
         List<Post> posts = page.getContent();
         model.addAttribute("posts", posts);
